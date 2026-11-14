@@ -60,11 +60,12 @@ char **envp;
     setbuf(stdout, outbuf);
 
     if ((env = getenv("HOME")) != NULL)
-	strcpy(home, env);
+	strncpy(home, env, MAXPATH - MAXSTR - 1);
     else if ((pw = getpwuid(getuid())) != NULL)
-	strcpy(home, pw->pw_dir);
+	strncpy(home, pw->pw_dir, MAXPATH - MAXSTR - 1);
     else
 	home[0] = '\0';
+    home[MAXPATH - MAXSTR - 1] = '\0';
     strcat(home, "/");
 
     strcpy(file_name, home);

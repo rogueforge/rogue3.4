@@ -37,11 +37,11 @@ char *s_names[MAXSCROLLS];		/* Names of the scrolls */
 char *p_colors[MAXPOTIONS];		/* Colors of the potions */
 char whoami[80];			/* Name of player */
 char fruit[80];				/* Favorite fruit */
-char huh[80];				/* The last message printed */
+char huh[BUFSIZ + MAXPATH];		/* The last message printed */
 char *s_guess[MAXSCROLLS];		/* Players guess at what scroll is */
 char *p_guess[MAXPOTIONS];		/* Players guess at what potion is */
-char file_name[80];			/* Save file name */
-char home[80];				/* User's home directory */
+char file_name[MAXPATH];		/* Save file name */
+char home[MAXPATH];			/* User's home directory */
 WINDOW *cw;				/* Window that the player sees */
 WINDOW *hw;				/* Used for the help command */
 WINDOW *mw;				/* Used to store mosnters */

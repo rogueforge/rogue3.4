@@ -17,7 +17,7 @@
 msg(char *fmt, ...)
 {
     va_list ap;
-    char msgbuf[512];
+    char msgbuf[BUFSIZ + MAXPATH];
     register char *ep;
 
     /*
