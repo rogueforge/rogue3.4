@@ -377,6 +377,7 @@ extern int count;			/* Number of times to repeat command */
 extern int fung_hit;			/* Number of time fungi has hit */
 extern int quiet;			/* Number of quiet turns */
 extern int max_level;			/* Deepest player has gone */
+extern int fd;				/* File descriptor for score file */
 
 extern char take;			/* Thing the rogue is taking */
 extern char prbuf[2*MAXSTR];		/* Buffer for sprintfs */

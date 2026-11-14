@@ -30,6 +30,11 @@ char **envp;
     int quit();
 
     /*
+     * open the score file while the game still has the privileges
+     * it was installed with, and then give them up for good
+     */
+    open_score();
+    /*
      * check for print-score option
      */
     if (argc == 2 && strcmp(argv[1], "-s") == 0)
@@ -191,6 +196,21 @@ char **envp;
     obj->o_damage = obj->o_hurldmg = "0d0";
     obj->o_which = 0;
     playit();
+}
+
+/*
+ * open_score:
+ *	Open the score file, and give up set-id privileges for good
+ */
+open_score()
+{
+    fd = open(SCOREFILE, 2);
+    if ((setregid(getgid(), getgid()) < 0 || setreuid(getuid(), getuid()) < 0)
+	&& (getegid() != getgid() || geteuid() != getuid()))
+    {
+	perror("rogue");
+	exit(1);
+    }
 }
 
 /*

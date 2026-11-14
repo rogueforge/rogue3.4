@@ -84,7 +84,6 @@ char monst;
 	int sc_level;
 	char sc_monster;
     } top_ten[10];
-    register int fd;
     register int i, j;
     register FILE *outf;
     register char *killer;
@@ -93,7 +92,6 @@ char monst;
      * Open file and read list
      */
 
-    fd = open(SCOREFILE, 2);
     {
     static char *reason[] = {
 	"killed",

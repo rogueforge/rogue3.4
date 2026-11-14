@@ -208,7 +208,7 @@ char **envp;
     char buf[80], name[MAXPATH];
     STAT sbuf2;
     time_t saved_mtime;
-    int y, x, owiz;
+    int y, x, owiz, ofd;
 
     if (strcmp(file, "-r") == 0)
 	file = strcpy(name, file_name);
@@ -247,6 +247,7 @@ char **envp;
     read(inf, &saved_mtime, sizeof saved_mtime);
     lseek(inf, 0L, 0);
     owiz = wizard;
+    ofd = fd;
     if (encread(version, (unsigned int) (rg_edata - version), inf)
 	    != rg_edata - version
 	|| encread(rg_bss, (unsigned int) (rg_ebss - rg_bss), inf)
@@ -267,6 +268,7 @@ char **envp;
 	printf("Sorry, saved game is damaged.\n");
 	return FALSE;
     }
+    fd = ofd;
     sbuf2.st_mtime = saved_mtime;
     if ((wizard = owiz) != FALSE)
 	waswizard = TRUE;
