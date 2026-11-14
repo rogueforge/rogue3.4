@@ -217,7 +217,9 @@
 struct h_list {
     char h_ch;
     char *h_desc;
-} helpstr[];
+};
+
+extern struct h_list helpstr[];
 
 /*
  * Coordinate data type
@@ -270,7 +272,9 @@ struct trap {
     coord tr_pos;			/* Where trap is */
     char tr_type;			/* What kind of trap */
     int tr_flags;			/* Info about trap (i.e. ISFOUND) */
-} traps[MAXTRAPS];
+};
+
+extern struct trap traps[MAXTRAPS];
 
 /*
  * Structure describing a fighting being
@@ -329,80 +333,80 @@ struct object {
  * Now all the global variables
  */
 
-struct room rooms[MAXROOMS];		/* One for each room -- A level */
-struct linked_list *mlist;		/* List of monsters on the level */
-struct linked_list *f_list;		/* List of active fuses */
-struct linked_list *d_list;	/* List of active daemons */
-struct thing player;			/* The rogue */
-struct stats max_stats;			/* The maximum for the player */
-struct monster monsters[26];		/* The initial monster states */
-struct linked_list *lvl_obj;		/* List of objects on this level */
-struct object *cur_weapon;		/* Which weapon he is weilding */
-struct object *cur_armor;		/* What a well dresssed rogue wears */
-struct magic_item s_magic[MAXSCROLLS];	/* Names and chances for scrolls */
-struct magic_item p_magic[MAXPOTIONS];	/* Names and chances for potions */
+extern struct room rooms[MAXROOMS];	/* One for each room -- A level */
+extern struct linked_list *mlist;	/* List of monsters on the level */
+extern struct linked_list *f_list;	/* List of active fuses */
+extern struct linked_list *d_list;	/* List of active daemons */
+extern struct thing player;		/* The rogue */
+extern struct stats max_stats;		/* The maximum for the player */
+extern struct monster monsters[26];	/* The initial monster states */
+extern struct linked_list *lvl_obj;	/* List of objects on this level */
+extern struct object *cur_weapon;	/* Which weapon he is weilding */
+extern struct object *cur_armor;	/* What a well dresssed rogue wears */
+extern struct magic_item s_magic[MAXSCROLLS];	/* Names and chances for scrolls */
+extern struct magic_item p_magic[MAXPOTIONS];	/* Names and chances for potions */
 
-int level;				/* What level rogue is on */
-int purse;				/* How much gold the rogue has */
-int mpos;				/* Where cursor is on top line */
-int ntraps;				/* Number of traps on this level */
-int no_move;				/* Number of turns held in place */
-int no_command;				/* Number of turns asleep */
-int inpack;				/* Number of things in pack */
-int max_hp;				/* Player's max hit points */
-int a_chances[MAXARMORS];		/* Probabilities for armor */
-int a_class[MAXARMORS];			/* Armor class for various armors */
-int lastscore;				/* Score before this turn */
-int total;				/* Total dynamic memory chunks */
-int no_food;				/* Number of levels without food */
-int seed;				/* Random number seed */
-int dnum;				/* Dungeon number (display copy of seed) */
-int count;				/* Number of times to repeat command */
-int fung_hit;				/* Number of time fungi has hit */
-int quiet;				/* Number of quiet turns */
-int max_level;				/* Deepest player has gone */
+extern int level;			/* What level rogue is on */
+extern int purse;			/* How much gold the rogue has */
+extern int mpos;			/* Where cursor is on top line */
+extern int ntraps;			/* Number of traps on this level */
+extern int no_move;			/* Number of turns held in place */
+extern int no_command;			/* Number of turns asleep */
+extern int inpack;			/* Number of things in pack */
+extern int max_hp;			/* Player's max hit points */
+extern int a_chances[MAXARMORS];	/* Probabilities for armor */
+extern int a_class[MAXARMORS];		/* Armor class for various armors */
+extern int lastscore;			/* Score before this turn */
+extern int total;			/* Total dynamic memory chunks */
+extern int no_food;			/* Number of levels without food */
+extern int seed;			/* Random number seed */
+extern int dnum;			/* Dungeon number (display copy of seed) */
+extern int count;			/* Number of times to repeat command */
+extern int fung_hit;			/* Number of time fungi has hit */
+extern int quiet;			/* Number of quiet turns */
+extern int max_level;			/* Deepest player has gone */
 
-char take;				/* Thing the rogue is taking */
-char prbuf[80];				/* Buffer for sprintfs */
-char outbuf[BUFSIZ];			/* Output buffer for stdout */
-char runch;				/* Direction player is running */
-char *s_names[MAXSCROLLS];		/* Names of the scrolls */
-char *p_colors[MAXPOTIONS];		/* Colors of the potions */
-char *w_names[MAXWEAPONS];		/* Names of the various weapons */
-char *a_names[MAXARMORS];		/* Names of armor types */
-char *release;				/* Release number of rogue */
-char whoami[80];			/* Name of player */
-char fruit[80];				/* Favorite fruit */
-char huh[80];				/* The last message printed */
-char *s_guess[MAXSCROLLS];		/* Players guess at what scroll is */
-char *p_guess[MAXPOTIONS];		/* Players guess at what potion is */
-char file_name[80];			/* Save file name */
-char home[80];				/* User's home directory */
+extern char take;			/* Thing the rogue is taking */
+extern char prbuf[80];			/* Buffer for sprintfs */
+extern char outbuf[BUFSIZ];		/* Output buffer for stdout */
+extern char runch;			/* Direction player is running */
+extern char *s_names[MAXSCROLLS];	/* Names of the scrolls */
+extern char *p_colors[MAXPOTIONS];	/* Colors of the potions */
+extern char *w_names[MAXWEAPONS];	/* Names of the various weapons */
+extern char *a_names[MAXARMORS];	/* Names of armor types */
+extern char *release;			/* Release number of rogue */
+extern char whoami[80];			/* Name of player */
+extern char fruit[80];			/* Favorite fruit */
+extern char huh[80];			/* The last message printed */
+extern char *s_guess[MAXSCROLLS];	/* Players guess at what scroll is */
+extern char *p_guess[MAXPOTIONS];	/* Players guess at what potion is */
+extern char file_name[80];		/* Save file name */
+extern char home[80];			/* User's home directory */
 
-WINDOW *cw;				/* Window that the player sees */
-WINDOW *hw;				/* Used for the help command */
-WINDOW *mw;				/* Used to store mosnters */
+extern WINDOW *cw;			/* Window that the player sees */
+extern WINDOW *hw;			/* Used for the help command */
+extern WINDOW *mw;			/* Used to store mosnters */
 
-bool running;				/* True if player is running */
-bool playing;				/* True until he quits */
-bool wizard;				/* True if allows wizard commands */
-bool after;				/* True if we want after daemons */
-bool notify;				/* True if player wants to know */
-bool fight_flush;			/* True if toilet input */
-bool terse;				/* True if we should be short */
-bool door_stop;				/* Stop running when we pass a door */
-bool jump;				/* Show running as series of jumps */
-bool slow_invent;			/* Inventory one line at a time */
-bool throwing;				/* Throw direction dispatch flag */
-bool firstmove;				/* First move after setting door_stop */
-bool waswizard;				/* Was a wizard sometime */
-bool askme;				/* Ask about unidentified things */
-bool s_know[MAXSCROLLS];		/* Does he know what a scroll does */
-bool p_know[MAXPOTIONS];		/* Does he know what a potion does */
-bool amulet;				/* He found the amulet */
-bool in_shell;				/* True if executing a shell */
+extern bool running;			/* True if player is running */
+extern bool playing;			/* True until he quits */
+extern bool wizard;			/* True if allows wizard commands */
+extern bool after;			/* True if we want after daemons */
+extern bool notify;			/* True if player wants to know */
+extern bool fight_flush;		/* True if toilet input */
+extern bool terse;			/* True if we should be short */
+extern bool door_stop;			/* Stop running when we pass a door */
+extern bool jump;			/* Show running as series of jumps */
+extern bool slow_invent;		/* Inventory one line at a time */
+extern bool throwing;			/* Throw direction dispatch flag */
+extern bool firstmove;			/* First move after setting door_stop */
+extern bool waswizard;			/* Was a wizard sometime */
+extern bool askme;			/* Ask about unidentified things */
+extern bool s_know[MAXSCROLLS];		/* Does he know what a scroll does */
+extern bool p_know[MAXPOTIONS];		/* Does he know what a potion does */
+extern bool amulet;			/* He found the amulet */
+extern bool in_shell;			/* True if executing a shell */
 
-coord oldpos;				/* Position before last look() call */
+extern coord oldpos;			/* Position before last look() call */
 
 struct linked_list *find_mons(), *find_obj(), *get_item(), *new_item();
 

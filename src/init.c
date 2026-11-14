@@ -19,6 +19,38 @@ int mpos = 0, no_move = 0, no_command = 0, level = 1, purse = 0, inpack = 0;
 int total = 0, no_food = 0, count = 0, fung_hit = 0, quiet = 0;
 int lastscore;
 
+struct trap traps[MAXTRAPS];		/* Traps on this level */
+struct room rooms[MAXROOMS];		/* One for each room -- A level */
+struct thing player;			/* The rogue */
+struct stats max_stats;			/* The maximum for the player */
+struct object *cur_armor;		/* What a well dresssed rogue wears */
+int ntraps;				/* Number of traps on this level */
+int max_hp;				/* Player's max hit points */
+int seed;				/* Random number seed */
+int dnum;				/* Dungeon number (display copy of seed) */
+int max_level;				/* Deepest player has gone */
+char take;				/* Thing the rogue is taking */
+char prbuf[80];				/* Buffer for sprintfs */
+char outbuf[BUFSIZ];			/* Output buffer for stdout */
+char runch;				/* Direction player is running */
+char *s_names[MAXSCROLLS];		/* Names of the scrolls */
+char *p_colors[MAXPOTIONS];		/* Colors of the potions */
+char whoami[80];			/* Name of player */
+char fruit[80];				/* Favorite fruit */
+char huh[80];				/* The last message printed */
+char *s_guess[MAXSCROLLS];		/* Players guess at what scroll is */
+char *p_guess[MAXPOTIONS];		/* Players guess at what potion is */
+char file_name[80];			/* Save file name */
+char home[80];				/* User's home directory */
+WINDOW *cw;				/* Window that the player sees */
+WINDOW *hw;				/* Used for the help command */
+WINDOW *mw;				/* Used to store mosnters */
+bool after;				/* True if we want after daemons */
+bool waswizard;				/* Was a wizard sometime */
+bool s_know[MAXSCROLLS];		/* Does he know what a scroll does */
+bool p_know[MAXPOTIONS];		/* Does he know what a potion does */
+coord oldpos;				/* Position before last look() call */
+
 #define ___ 1
 #define _x {1,1}
 struct monster monsters[26] = {
