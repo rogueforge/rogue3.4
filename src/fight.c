@@ -234,6 +234,7 @@ register struct thing *mp;
 		if (purse != lastpurse)
 		    msg("Your purse feels lighter");
 		remove_mon(&mp->t_pos, find_mons(mp->t_pos.y, mp->t_pos.x));
+		mp = NULL;
 	    }
 	    when 'N':
 	    {
@@ -256,6 +257,7 @@ register struct thing *mp;
 		if (steal != NULL)
 		{
 		    remove_mon(&mp->t_pos, find_mons(mp->t_pos.y, mp->t_pos.x));
+		    mp = NULL;
 		    msg("She stole a %s!\n", inv_name((struct object *)ldata(steal), TRUE));
 		    detach(pack, steal);
 		    discard(steal);
@@ -276,7 +278,7 @@ register struct thing *mp;
      * Check to see if this is a regenerating monster and let it heal if
      * it is.
      */
-    if (on(*mp, ISREGEN) && rnd(100) < 33)
+    if (mp != NULL && on(*mp, ISREGEN) && rnd(100) < 33)
 	mp->t_stats.s_hpt++;
     if (fight_flush)
     {
@@ -284,6 +286,11 @@ register struct thing *mp;
     }
     count = 0;
     status();
+
+    if (mp == NULL)
+	return -1;
+    else
+	return 0;
 }
 
 /*
