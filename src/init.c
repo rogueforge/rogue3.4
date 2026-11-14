@@ -116,7 +116,7 @@ init_player()
  * potions and scrolls
  */
 
-static char *rainbow[] = {
+static char rainbow[][10] = {
     "Red",
     "Blue",
     "Green",
@@ -142,7 +142,7 @@ static char *rainbow[] = {
     "Tan",
 };
 
-#define NCOLORS (sizeof rainbow / sizeof (char *))
+#define NCOLORS (sizeof rainbow / sizeof rainbow[0])
 
 static char *sylls[] = {
     "a", "ab", "ag", "aks", "ala", "an", "ankh", "app", "arg", "arze",
