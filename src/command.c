@@ -710,7 +710,7 @@ shell()
 passwd()
 {
     register char *sp, c;
-    char buf[80], *crypt();
+    char buf[MAXSTR], *crypt();
 
     msg("Wizard's Password:");
     mpos = 0;
@@ -720,7 +720,7 @@ passwd()
 	    sp = buf;
 	else if (c == erasechar() && sp > buf)
 	    sp--;
-	else
+	else if (sp < &buf[MAXSTR - 1])
 	    *sp++ = c;
     if (sp == buf)
 	return FALSE;
