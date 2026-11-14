@@ -222,6 +222,7 @@ setup()
 {
 #ifdef CHECKTIME
     int  checkout();
+    sigset_t set;
 #endif
 
 #ifndef DUMP
@@ -251,6 +252,9 @@ setup()
     if (!author())
     {
 	signal(SIGALRM, checkout);
+	sigemptyset(&set);
+	sigaddset(&set, SIGALRM);
+	sigprocmask(SIG_UNBLOCK, &set, (sigset_t *) NULL);
 	alarm(CHECKTIME * 60);
     }
 #endif
