@@ -318,7 +318,7 @@ register int y, x;
 	if (traps[i].tr_pos.y == y && traps[i].tr_pos.x == x)
 	    break;
     if (i == ntraps)
-	debug(sprintf(prbuf, "Trap at %d,%d not in array", y, x));
+	debug("Trap at %d,%d not in array", y, x);
     return i;
 }
 

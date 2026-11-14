@@ -405,7 +405,7 @@ coord oldpos;				/* Position before last look() call */
 
 struct linked_list *find_mons(), *find_obj(), *get_item(), *new_item();
 
-char *malloc(), *getenv(), *unctrl(), *tr_name(), *new(), *sprintf();
+char *malloc(), *getenv(), *unctrl(), *tr_name(), *new();
 char *inv_name(), *strcpy(), *strcat(), *sbrk();
 char *ctime(), *num();
 

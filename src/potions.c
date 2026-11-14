@@ -466,7 +466,9 @@ int n1, n2;
     if (n1 == 0)
 	return "+0";
     if (n2 == 0)
-	return sprintf(numbuf, "%s%d", n1 < 0 ? "" : "+", n1);
-    return sprintf(numbuf, "%s%d,%s%d",
+	sprintf(numbuf, "%s%d", n1 < 0 ? "" : "+", n1);
+    else
+	sprintf(numbuf, "%s%d,%s%d",
 			    n1 < 0 ? "" : "+", n1, n2 < 0 ? "" : "+", n2);
+    return numbuf;
 }
