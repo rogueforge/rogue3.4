@@ -422,6 +422,7 @@ int msg(char *fmt, ...);
 
 int auto_save(), endit(), nohaste(), doctor(), runners(), swander();
 int unconfuse(), unsee(), rollwand(), hungry(), weak(), starve(), faint();
+int quit(), tstp();
 
 #ifdef CHECKTIME
 int checkout();
