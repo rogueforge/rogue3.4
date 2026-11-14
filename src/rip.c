@@ -114,6 +114,9 @@ char monst;
     }
 
     signal(SIGINT, SIG_DFL);
+#ifdef SIGWINCH
+    signal(SIGWINCH, SIG_IGN);
+#endif
     if (flags != -1)
     {
 	endwin();

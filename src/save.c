@@ -33,7 +33,7 @@ save_game()
 	msg("Save file (\"%s\")? ", file_name);
 	do
 	{
-	    c = getchar();
+	    c = readchar();
 	} while (c != 'n' && c != 'N' && c != 'y' && c != 'Y');
 	mpos = 0;
 	if (c == 'y' || c == 'Y')

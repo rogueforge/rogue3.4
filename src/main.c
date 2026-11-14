@@ -110,6 +110,7 @@ char **envp;
     seed = dnum;
 
     initscr();				/* Start up cursor package */
+    getmaxyx(stdscr, LINES, COLS);
     setup();
     init_player();			/* Roll up the rogue */
     init_names();			/* Set up names of scrolls */
@@ -262,6 +263,10 @@ setup()
 	alarm(CHECKTIME * 60);
     }
 #endif
+    sprintf(prbuf, "%d", LINES);
+    setenv("LINES", prbuf, 1);
+    sprintf(prbuf, "%d", COLS);
+    setenv("COLUMNS", prbuf, 1);
     crmode();				/* Cbreak mode */
     noecho();				/* Echo off */
 }
