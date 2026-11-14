@@ -18,7 +18,7 @@ msg(char *fmt, ...)
 {
     va_list ap;
     char msgbuf[BUFSIZ + MAXPATH];
-    register char *ep;
+    register char *ep, *cp;
 
     /*
      * if the string is "", just clear the line
@@ -46,14 +46,31 @@ msg(char *fmt, ...)
 	}
 	ep++;
     }
-    strcpy(huh, msgbuf);
+    /*
+     * Each character takes one column: tabs become spaces and
+     * anything else that does not print a ?
+     */
+    cp = huh;
+    for (ep = msgbuf; *ep != '\0' && cp < &huh[sizeof huh - 8]; ep++)
+	if (*ep == '\t')
+	    do
+		*cp++ = ' ';
+	    while ((cp - huh) % 8 != 0);
+	else if (*ep < ' ' || *ep > '~')
+	    *cp++ = '?';
+	else
+	    *cp++ = *ep;
+    *cp = '\0';
+    strcpy(msgbuf, huh);
     if (mpos)
     {
-	wmove(cw, 0, mpos);
+	wmove(cw, 0, mpos > COLS - 8 ? COLS - 8 : mpos);
 	waddstr(cw, "--More--");
 	draw(cw);
 	wait_for(' ');
     }
+    if (strlen(msgbuf) > COLS - 1)
+	msgbuf[COLS - 1] = '\0';
     mvwaddstr(cw, 0, 0, msgbuf);
     wclrtoeol(cw);
     mpos = strlen(msgbuf);
