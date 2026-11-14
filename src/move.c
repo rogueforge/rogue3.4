@@ -58,6 +58,7 @@ register int dy, dx;
     if (on(player, ISHELD) && ch != 'F')
     {
 	msg("You are being held");
+	running = FALSE;
 	return;
     }
     switch(ch)
