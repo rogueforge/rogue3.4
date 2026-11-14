@@ -11,6 +11,7 @@
 #include <ctype.h>
 #include <errno.h>
 #include <sys/types.h>
+#include <sys/resource.h>
 #include <fcntl.h>
 #include "mach_dep.h"
 #include "rogue.h"
@@ -89,6 +90,7 @@ char monst;
     register int i, j;
     register FILE *outf;
     register char *killer;
+    struct rlimit lim;
 
     /*
      * Open file and read list
@@ -177,7 +179,8 @@ char monst;
     /*
      * Update the list file
      */
-    if (!waswizard)
+    if (!waswizard
+	&& !(getrlimit(RLIMIT_FSIZE, &lim) == 0 && lim.rlim_cur < sizeof top_ten))
     {
 	fseek(outf, 0L, 0);
 	encwrite((char *) top_ten, sizeof top_ten, outf);
