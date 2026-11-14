@@ -53,7 +53,7 @@
 #undef CTRL
 #define CTRL(ch) (ch & 037)
 #define ALLOC(x) calloc(1, (unsigned int) x)
-#define FREE(x) cfree((char *) x)
+#define FREE(x) free((char *) x)
 #define	EQSTR(a, b, c)	(strncmp(a, b, c) == 0)
 #define GOLDCALC (rnd(50 + 10 * level) + 2)
 #define ISMULT(type) (type == POTION || type == SCROLL || type == FOOD)

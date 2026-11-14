@@ -151,7 +151,7 @@ quaff()
     status();
     if (p_know[obj->o_which] && p_guess[obj->o_which])
     {
-	cfree(p_guess[obj->o_which]);
+	free(p_guess[obj->o_which]);
 	p_guess[obj->o_which] = NULL;
     }
     else if (!p_know[obj->o_which] && askme && p_guess[obj->o_which] == NULL)
@@ -431,7 +431,7 @@ read_scroll()
     status();
     if (s_know[obj->o_which] && s_guess[obj->o_which])
     {
-	cfree(s_guess[obj->o_which]);
+	free(s_guess[obj->o_which]);
 	s_guess[obj->o_which] = NULL;
     }
     else if (!s_know[obj->o_which] && askme && s_guess[obj->o_which] == NULL)
