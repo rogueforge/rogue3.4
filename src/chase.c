@@ -183,6 +183,8 @@ coord *ee;
 	 */
 	mv = *rndmove(tp);
 	diag_ok(er, &mv);
+	if (ce(mv, hero) && !ce(*ee, hero))
+	    mv = *er;
 	dist = DISTANCE(mv.y, mv.x, ee->y, ee->x);
 	/*
 	 * Small chance that it will become un-confused
@@ -229,6 +231,8 @@ coord *ee;
 			}
 		    }
 		    if (item != NULL && obj->o_which == S_SCARE)
+			continue;
+		    if (ce(dst, hero) && !ce(*ee, hero))
 			continue;
 		    /*
 		     * If we didn't find any scrolls at this place or it
