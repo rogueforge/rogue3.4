@@ -666,8 +666,8 @@ shell()
     /*
      * Fork and do a shell
      */
-    while((pid = fork()) < 0)
-	sleep(1);
+    if ((pid = fork()) < 0)
+	perror("No shelly");
     if (pid == 0)
     {
 	close(fd);
@@ -690,7 +690,7 @@ shell()
 
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
-	while (waitpid(pid, &ret_status, 0) != pid && errno != ECHILD)
+	while (pid > 0 && waitpid(pid, &ret_status, 0) != pid && errno != ECHILD)
 	    continue;
 #ifdef notdef
 	signal(SIGINT, endit);
