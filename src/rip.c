@@ -9,7 +9,9 @@
 #include <time.h>
 #include <signal.h>
 #include <ctype.h>
+#include <errno.h>
 #include <sys/types.h>
+#include <fcntl.h>
 #include "mach_dep.h"
 #include "rogue.h"
 
@@ -126,6 +128,8 @@ char monst;
 	printf("[Press return to continue]");
 	wait_for('\n');
     }
+    if (!waswizard)
+	hold_sc();
     encread((char *) top_ten, sizeof top_ten, fd);
     /*
      * Insert her in list if need be
@@ -170,12 +174,35 @@ char monst;
 	}
     }
     }
-    fseek(outf, 0L, 0);
     /*
      * Update the list file
      */
-    encwrite((char *) top_ten, sizeof top_ten, outf);
+    if (!waswizard)
+    {
+	fseek(outf, 0L, 0);
+	encwrite((char *) top_ten, sizeof top_ten, outf);
+    }
     fclose(outf);
+}
+
+/*
+ * hold_sc:
+ *	Lock the score file.  The lock goes when the file is closed.
+ *	Return TRUE if the file could be locked.
+ */
+hold_sc()
+{
+    register int cnt;
+    static struct flock fl;
+
+    fl.l_type = F_WRLCK;
+    for (cnt = 0; fcntl(fd, F_SETLK, &fl) < 0; cnt++)
+    {
+	if ((errno != EAGAIN && errno != EACCES) || cnt == 5)
+	    return FALSE;
+	sleep(1);
+    }
+    return TRUE;
 }
 
 total_winner()
