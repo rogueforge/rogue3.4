@@ -441,6 +441,11 @@ ucount()
     count = 0;
 
     while (fread(up, 1, sizeof (*up), utmp) > 0)
+#ifdef USER_PROCESS
+	if (buf.ut_type != USER_PROCESS)
+	    continue;
+	else
+#endif
 	if (buf.ut_name[0] != '\0')
 	    count++;
     fclose(utmp);
