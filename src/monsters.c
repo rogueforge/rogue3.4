@@ -98,7 +98,7 @@ register coord *cp;
  */
 wanderer()
 {
-    register int i, ch;
+    register int i, ch = ERR;
     register struct room *rp, *hr = roomin(&hero);
     register struct linked_list *item;
     register struct thing *tp;
@@ -124,7 +124,7 @@ wanderer()
 	    discard(item);
 	    return;
 	}
-    } until(step_ok(ch));
+    } until(rp != hr && step_ok(ch));
     new_monster(item, randwand(), &cp);
     tp = (struct thing *) ldata(item);
     tp->t_flags |= ISRUN;
