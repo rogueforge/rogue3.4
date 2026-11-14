@@ -118,6 +118,22 @@ create_obj()
     msg("Which %c do you want? (0-f)", obj->o_type);
     obj->o_which = (isdigit((unsigned char) (ch = readchar())) ? ch - '0' : ch - 'a' + 10);
     mpos = 0;
+    switch (obj->o_type)
+    {
+	when POTION: bless = MAXPOTIONS;
+	when SCROLL: bless = MAXSCROLLS;
+	when WEAPON: bless = MAXWEAPONS;
+	when ARMOR: bless = MAXARMORS;
+	when FOOD: bless = 3;
+	when AMULET: bless = 16;
+	otherwise: bless = 0;
+    }
+    if (obj->o_which < 0 || obj->o_which >= bless)
+    {
+	msg("There is no such thing");
+	discard(item);
+	return;
+    }
     msg("Blessing? (+,-,n)");
     bless = readchar();
     if (bless == '-')
