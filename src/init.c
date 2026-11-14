@@ -51,6 +51,8 @@ bool s_know[MAXSCROLLS];		/* Does he know what a scroll does */
 bool p_know[MAXPOTIONS];		/* Does he know what a potion does */
 coord oldpos;				/* Position before last look() call */
 
+char fung_dmg[16] = "000d0";
+
 #define ___ 1
 #define _x {1,1}
 struct monster monsters[26] = {
@@ -60,7 +62,7 @@ struct monster monsters[26] = {
 	{ "centaur",	 0,		{ _x, 10,   4,   4, ___, "1d6/1d6" } },
 	{ "dragon",	 ISGREED,	{ _x,9000, 10,  -1, ___, "1d8/1d8/3d10" } },
 	{ "floating eye",0,		{ _x,  5,   1,   9, ___, "0d0" } },
-	{ "violet fungi",ISMEAN,	{ _x, 85,   8,   3, ___, "000d0" } },
+	{ "violet fungi",ISMEAN,	{ _x, 85,   8,   3, ___, fung_dmg } },
 	{ "gnome",	 0,		{ _x,  8,   1,   5, ___, "1d6" } },
 	{ "hobgoblin",	 ISMEAN,	{ _x,  3,   1,   5, ___, "1d8" } },
 	{ "invisible stalker",ISINVIS,	{ _x,120,   8,   3, ___, "4d4" } },
