@@ -17,8 +17,6 @@ extern char version[], encstr[], *strerror();
 extern bool _endwin;
 #include <errno.h>
 
-char *sbrk();
-
 STAT sbuf;
 
 save_game()
@@ -97,7 +95,7 @@ register FILE *savef;
     fseek(savef, 0L, 0);
     _endwin = TRUE;
     fstat(fileno(savef), &sbuf);
-    encwrite(version, sbrk(0) - version, savef);
+    encwrite(version, (char *) sbrk(0) - version, savef);
     fseek(savef, (long)((char *)&sbuf.st_mtime - version), 0);
     now = time(0);
     fwrite(&now, sizeof now, 1, savef);

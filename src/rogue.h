@@ -6,6 +6,7 @@
 
 #include <stdarg.h>
 #include <time.h>
+#include <unistd.h>
 
 /*
  * Maximum number of different things
@@ -411,7 +412,7 @@ extern coord oldpos;			/* Position before last look() call */
 struct linked_list *find_mons(), *find_obj(), *get_item(), *new_item();
 
 char *malloc(), *getenv(), *unctrl(), *tr_name(), *new();
-char *inv_name(), *strcpy(), *strcat(), *sbrk();
+char *inv_name(), *strcpy(), *strcat();
 char *ctime(), *num();
 
 struct room *roomin();
@@ -427,7 +428,5 @@ int quit(), tstp();
 #ifdef CHECKTIME
 int checkout();
 #endif
-
-long lseek();
 
 int trap_at();
