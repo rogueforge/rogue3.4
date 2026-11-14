@@ -484,7 +484,7 @@ int type;
     register struct object *obj;
     register char ch;
     register int n_objs;
-    char inv_temp[80];
+    char inv_temp[2*MAXSTR + 4];
 
     n_objs = 0;
     for (ch = 'a'; ch <= 'w' && list != NULL; list = next(list), ch++)

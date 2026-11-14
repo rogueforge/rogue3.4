@@ -30,7 +30,7 @@ int seed;				/* Random number seed */
 int dnum;				/* Dungeon number (display copy of seed) */
 int max_level;				/* Deepest player has gone */
 char take;				/* Thing the rogue is taking */
-char prbuf[80];				/* Buffer for sprintfs */
+char prbuf[2*MAXSTR];			/* Buffer for sprintfs */
 char outbuf[BUFSIZ];			/* Output buffer for stdout */
 char runch;				/* Direction player is running */
 char *s_names[MAXSCROLLS];		/* Names of the scrolls */

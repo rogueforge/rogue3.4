@@ -158,7 +158,8 @@ quaff()
     {
 	msg(terse ? "Call it: " : "What do you want to call it? ");
 	mpos = 0;
-	if (get_str(buf, cw) == NORM)
+	buf[0] = '\0';
+	if (get_str(buf, cw) == NORM && buf[0] != '\0')
 	{
 	    p_guess[obj->o_which] = malloc((unsigned int) strlen(buf) + 1);
 	    strcpy(p_guess[obj->o_which], buf);
@@ -438,7 +439,8 @@ read_scroll()
     {
 	msg(terse ? "Call it: " : "What do you want to call it? ");
 	mpos = 0;
-	if (get_str(buf, cw) == NORM)
+	buf[0] = '\0';
+	if (get_str(buf, cw) == NORM && buf[0] != '\0')
 	{
 	    s_guess[obj->o_which] = malloc((unsigned int) strlen(buf) + 1);
 	    strcpy(s_guess[obj->o_which], buf);

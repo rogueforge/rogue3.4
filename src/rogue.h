@@ -379,7 +379,7 @@ extern int quiet;			/* Number of quiet turns */
 extern int max_level;			/* Deepest player has gone */
 
 extern char take;			/* Thing the rogue is taking */
-extern char prbuf[80];			/* Buffer for sprintfs */
+extern char prbuf[2*MAXSTR];		/* Buffer for sprintfs */
 extern char outbuf[BUFSIZ];		/* Output buffer for stdout */
 extern char runch;			/* Direction player is running */
 extern char *s_names[MAXSCROLLS];	/* Names of the scrolls */
