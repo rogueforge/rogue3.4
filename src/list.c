@@ -68,6 +68,8 @@ discard(item)
 register struct linked_list *item;
 {
     total -= 2;
+    if ((struct object *) item->l_data == cur_weapon)
+	cur_weapon = NULL;
     FREE(item->l_data);
     FREE(item);
 }
