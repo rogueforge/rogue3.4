@@ -165,9 +165,11 @@ int flag;
 	if (flag == wire->f_type && --wire->d_time <= 0)
 	{
 	    int (*func)() = wire->d_func;
+	    int arg = wire->d_arg;
+
 	    detach(f_list, item);
 	    discard(item);
-	    (*func)(wire->d_arg);
+	    (*func)(arg);
 	}
     }
 }
