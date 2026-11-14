@@ -320,13 +320,13 @@ playit()
  */
 too_much()
 {
-#ifdef MAXLOAD
+#if MAXLOAD
     double avec[3];
 #else
     register int cnt;
 #endif
 
-#ifdef MAXLOAD
+#if MAXLOAD
     loadav(avec);
     return (avec[2] > (MAXLOAD / 10.0));
 #else
@@ -417,7 +417,7 @@ register double *avg;
     avg[2] = (double) buf[2] / 256.0;
 }
 #else
-#ifdef MAXLOAD
+#if MAXLOAD
 
 loadav(avg)
 register double *avg;
