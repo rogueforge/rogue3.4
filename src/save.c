@@ -138,8 +138,12 @@ gotfile:
      * write out encrpyted file (after a stat)
      * The fwrite is to force allocation of the buffer before the write
      */
-    save_file(savef);
-    return TRUE;
+    if (save_file(savef))
+	return TRUE;
+    c = errno;
+    unlink(file_name);
+    msg(strerror(c));
+    return FALSE;
 }
 
 /*
@@ -157,8 +161,9 @@ auto_save()
 	unlink(file_name);
     if (file_name[0] != '\0'
 	&& (i = open(file_name, O_WRONLY|O_CREAT|O_EXCL, 0400)) >= 0
-	&& (savef = fdopen(i, "w")) != NULL)
-	save_file(savef);
+	&& (savef = fdopen(i, "w")) != NULL
+	&& !save_file(savef))
+	    unlink(file_name);
     exit(1);
 }
 
@@ -168,6 +173,7 @@ auto_save()
 save_file(savef)
 register FILE *savef;
 {
+    register int i;
     time_t now;
 
     wmove(cw, LINES-1, 0);
@@ -185,7 +191,10 @@ register FILE *savef;
     fseek(savef, save_off((char *) &sbuf.st_mtime), 0);
     now = time(0);
     fwrite(&now, sizeof now, 1, savef);
-    fclose(savef);
+    i = ferror(savef);
+    if (fclose(savef) == EOF || i)
+	return FALSE;
+    return TRUE;
 }
 
 restore(file, envp)
