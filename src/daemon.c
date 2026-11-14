@@ -72,11 +72,12 @@ register int (*func)();
 do_daemons(flag)
 register int flag;
 {
-    register struct linked_list *item;
+    register struct linked_list *item, *nitem;
     register struct daemon_action *dev;
 
-    for (item = d_list; item != NULL; item = next(item))
+    for (item = d_list; item != NULL; item = nitem)
     {
+	nitem = next(item);
 	dev = (struct daemon_action *) ldata(item);
 	if (dev->d_type == flag)
 	    (*dev->d_func)(dev->d_arg);
