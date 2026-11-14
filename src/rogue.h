@@ -4,6 +4,8 @@
  * @(#)rogue.h	X.XX (Berkeley) XX/XX/XX
  */
 
+#include <stdarg.h>
+
 /*
  * Maximum number of different things
  */
@@ -410,6 +412,8 @@ char *ctime(), *num();
 struct room *roomin();
 
 coord *rndmove();
+
+int msg(char *fmt, ...);
 
 int auto_save(), endit(), nohaste(), doctor(), runners(), swander();
 int unconfuse(), unsee(), rollwand(), hungry(), weak(), starve(), faint();

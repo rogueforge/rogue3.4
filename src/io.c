@@ -13,11 +13,9 @@
  *	Display a message at the top of the screen.
  */
 /*VARARGS1*/
-msg(fmt, args)
-char *fmt;
-int args;
+msg(char *fmt, ...)
 {
-    FILE junk;
+    va_list ap;
     char msgbuf[512];
     register char *ep;
 
@@ -34,11 +32,9 @@ int args;
     /*
      * otherwise add to the message and flush it out
      */
-    junk._flag = _IOWRT + _IOSTRG;
-    junk._ptr = msgbuf;
-    junk._cnt = 32767;
-    _doprnt(fmt, &args, &junk);
-    putc('\0', &junk);
+    va_start(ap, fmt);
+    vsprintf(msgbuf, fmt, ap);
+    va_end(ap);
     ep = msgbuf;
     while (*ep)
     {
