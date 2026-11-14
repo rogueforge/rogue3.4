@@ -60,8 +60,8 @@ register char monst;
     if (*killer == 'a' || *killer == 'e' || *killer == 'i' ||
 	*killer == 'o' || *killer == 'u')
 	    mvaddch(16, 33, 'n');
-    sprintf(prbuf, "%2d", lt->tm_year);
-    mvaddstr(18, 28, prbuf);
+    sprintf(prbuf, "%4d", 1900 + lt->tm_year);
+    mvaddstr(18, 26, prbuf);
     move(LINES-1, 0);
     draw(stdscr);
     score(purse, 0, monst);
