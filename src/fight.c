@@ -108,7 +108,7 @@ bool thrown;
 		    fall(pitem, FALSE);
 		    pitem = next(pitem);
 		}
-		remove(mp, item);
+		remove_mon(mp, item);
 		wake_flag = FALSE;
 	    }
 	}
@@ -233,7 +233,7 @@ register struct thing *mp;
 		    purse = 0;
 		if (purse != lastpurse)
 		    msg("Your purse feels lighter");
-		remove(&mp->t_pos, find_mons(mp->t_pos.y, mp->t_pos.x));
+		remove_mon(&mp->t_pos, find_mons(mp->t_pos.y, mp->t_pos.x));
 	    }
 	    when 'N':
 	    {
@@ -255,7 +255,7 @@ register struct thing *mp;
 		}
 		if (steal != NULL)
 		{
-		    remove(&mp->t_pos, find_mons(mp->t_pos.y, mp->t_pos.x));
+		    remove_mon(&mp->t_pos, find_mons(mp->t_pos.y, mp->t_pos.x));
 		    msg("She stole a %s!\n", inv_name((struct object *)ldata(steal), TRUE));
 		    detach(pack, steal);
 		    discard(steal);
@@ -571,9 +571,10 @@ register char *mname;
 }
 
 /*
- * remove a monster from the screen
+ * remove_mon:
+ *	Remove a monster from the screen
  */
-remove(mp, item)
+remove_mon(mp, item)
 register coord *mp;
 register struct linked_list *item;
 {
