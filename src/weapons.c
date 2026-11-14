@@ -122,7 +122,10 @@ int ydelta, xdelta;
 	break;
     }
     if (isupper(ch) && hit_monster(obj->o_pos.y, obj->o_pos.x, obj))
-	;
+    {
+	if (obj != cur_weapon)
+	    discard(item);
+    }
     else
 	fall(item, TRUE);
     mvwaddch(cw, hero.y, hero.x, PLAYER);
