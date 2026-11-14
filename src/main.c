@@ -446,6 +446,30 @@ ucount()
     fclose(utmp);
     return count;
 }
+#else
+#if MAXUSERS
+
+#include <utmpx.h>
+
+/*
+ * ucount:
+ *	Count the users on the system, from the system's own record of
+ *	them
+ */
+ucount()
+{
+    register struct utmpx *up;
+    register int count;
+
+    count = 0;
+    setutxent();
+    while ((up = getutxent()) != NULL)
+	if (up->ut_type == USER_PROCESS)
+	    count++;
+    endutxent();
+    return count;
+}
+#endif
 #endif
 
 # ifdef SIGTSTP
