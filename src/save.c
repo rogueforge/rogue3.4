@@ -90,7 +90,6 @@ save_file(savef)
 register FILE *savef;
 {
     long now;
-    time_t time();
 
     wmove(cw, LINES-1, 0);
     draw(cw);
