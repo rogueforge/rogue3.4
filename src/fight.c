@@ -86,6 +86,8 @@ bool thrown;
 			break;
 		    if (rp->r_goldval == 0)
 		    {
+			if (mvwinch(stdscr, mp->y, mp->x) != FLOOR)
+			    break;
 			rp->r_gold = *mp;
 		    }
 		    if (!save_throw(VS_MAGIC))
