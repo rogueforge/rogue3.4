@@ -77,9 +77,6 @@ eat()
 	    msg("That's Inedible!");
 	return;
     }
-    inpack--;
-    detach(pack, item);
-    discard(item);
     if (obj->o_which == 1)
     {
 	msg("Yuk, this food tastes awful");
@@ -97,6 +94,9 @@ eat()
     fuse(hungry, 0, HUNGERTIME, AFTER);
     if (obj == cur_weapon)
 	cur_weapon = NULL;
+    inpack--;
+    detach(pack, item);
+    discard(item);
 }
 
 /*
