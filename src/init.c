@@ -283,7 +283,7 @@ struct h_list helpstr[] = {
     'T',	"	take armor off",
     'd',	"	drop object",
     'o',	"	examine/set options",
-    CTRL(L),	"	redraw screen",
+    CTRL('L'),	"	redraw screen",
     ESCAPE,	"	cancel command",
     'v',	"	print program version number",
     'R',	"	repeat last message",

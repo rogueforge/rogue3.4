@@ -175,7 +175,7 @@ command()
 		when 'v' : msg("Rogue version %s. (mctesq was here)", release);
 		when 'M' : after = FALSE; msg("Items allocated : %d", total);
 		when 'R' : after = FALSE; msg(huh);
-		when CTRL(L) : after = FALSE; clearok(curscr,TRUE);draw(curscr);
+		when CTRL('L') : after = FALSE; clearok(curscr,TRUE);draw(curscr);
 		when 'S' :
 		    after = FALSE;
 		    if (save_game())
@@ -187,7 +187,7 @@ command()
 			exit(0);
 		    }
 		when ' ' : ;			/* Rest command */
-		when CTRL(P) :
+		when CTRL('P') :
 		    after = FALSE;
 		    if (wizard)
 		    {
@@ -219,11 +219,11 @@ command()
 		    {
 			when '@' : msg("@ %d,%d", hero.y, hero.x);
 			when 'C' : create_obj();
-			when CTRL(I) : inventory(lvl_obj, 0);
-			when CTRL(W) : whatis();
-			when CTRL(D) : after = TRUE; level++; new_level();
-			when CTRL(F) : show_win(stdscr, "--More (level map)--");
-			when CTRL(X) : show_win(mw, "--More (monsters)--");
+			when CTRL('I') : inventory(lvl_obj, 0);
+			when CTRL('W') : whatis();
+			when CTRL('D') : after = TRUE; level++; new_level();
+			when CTRL('F') : show_win(stdscr, "--More (level map)--");
+			when CTRL('X') : show_win(mw, "--More (monsters)--");
 			otherwise :
 			    msg("Illegal command '%s'.", unctrl(ch));
 			    count = 0;
