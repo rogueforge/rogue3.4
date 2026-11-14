@@ -411,7 +411,7 @@ extern coord oldpos;			/* Position before last look() call */
 
 struct linked_list *find_mons(), *find_obj(), *get_item(), *new_item();
 
-char *malloc(), *calloc(), *getenv(), *unctrl(), *tr_name(), *new();
+char *malloc(), *calloc(), *getenv(), *tr_name(), *new();
 char *inv_name(), *strcpy(), *strcat();
 char *ctime(), *num();
 
