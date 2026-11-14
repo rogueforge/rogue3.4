@@ -111,6 +111,10 @@ char **envp;
 
     initscr();				/* Start up cursor package */
     getmaxyx(stdscr, LINES, COLS);
+    if (LINES > MAXLINES)
+	LINES = MAXLINES;
+    if (COLS > MAXCOLS)
+	COLS = MAXCOLS;
     setup();
     init_player();			/* Roll up the rogue */
     init_names();			/* Set up names of scrolls */
@@ -267,6 +271,9 @@ setup()
     setenv("LINES", prbuf, 1);
     sprintf(prbuf, "%d", COLS);
     setenv("COLUMNS", prbuf, 1);
+#ifdef NCURSES_VERSION
+    resizeterm(LINES, COLS);
+#endif
     crmode();				/* Cbreak mode */
     noecho();				/* Echo off */
 }
