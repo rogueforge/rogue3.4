@@ -81,10 +81,11 @@ int ydelta, xdelta;
 	cur_armor = NULL;
     }
     if (on(player, ISHUH))
-    {
-	xdelta = rnd(3) - 1;
-	ydelta = rnd(3) - 1;
-    }
+	do
+	{
+	    xdelta = rnd(3) - 1;
+	    ydelta = rnd(3) - 1;
+	} while (xdelta == 0 && ydelta == 0);
     detach(pack, item);
     inpack--;
     /*
