@@ -82,7 +82,9 @@ bool thrown;
 		{
 		    register struct room *rp;
 
-		    if ((rp = roomin(mp))->r_goldval == 0)
+		    if ((rp = roomin(mp)) == NULL)
+			break;
+		    if (rp->r_goldval == 0)
 		    {
 			rp->r_gold = *mp;
 		    }
