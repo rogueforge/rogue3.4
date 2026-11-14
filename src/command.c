@@ -269,11 +269,13 @@ command()
  */
 quit()
 {
+#ifdef notdef
     /*
      * Reset the signal in case we got here via an interrupt
      */
     if (signal(SIGINT, quit) != quit)
 	mpos = 0;
+#endif
     msg("Really quit?");
     draw(cw);
     if (readchar() == 'y')
@@ -287,7 +289,9 @@ quit()
     }
     else
     {
+#ifdef notdef
 	signal(SIGINT, quit);
+#endif
 	wmove(cw, 0, 0);
 	wclrtoeol(cw);
 	status();
@@ -670,6 +674,7 @@ shell()
 	 */
 	setuid(getuid());
 	setgid(getgid());
+	signal(SIGINT, SIG_DFL);
 	execl(sh == NULL ? "/bin/sh" : sh, "shell", "-i", 0);
 	perror("No shelly");
 	exit(-1);
@@ -682,7 +687,11 @@ shell()
 	signal(SIGQUIT, SIG_IGN);
 	while (wait(&ret_status) != pid)
 	    continue;
+#ifdef notdef
 	signal(SIGINT, endit);
+#else
+	signal(SIGINT, SIG_IGN);
+#endif
 	signal(SIGQUIT, endit);
 	printf("\n[Press return to continue]");
 	noecho();
