@@ -162,6 +162,10 @@ char monst;
     for (i = 0; i < 10; i++) {
 	if (top_ten[i].sc_score
 	    && top_ten[i].sc_flags >= 0 && top_ten[i].sc_flags <= 2) {
+	    top_ten[i].sc_name[79] = '\0';
+	    for (j = 0; top_ten[i].sc_name[j] != '\0'; j++)
+		if (top_ten[i].sc_name[j] < ' ' || top_ten[i].sc_name[j] > '~')
+		    top_ten[i].sc_name[j] = '?';
 	    printf("%d\t%d\t%s: %s on level %d", i + 1,
 		top_ten[i].sc_score, top_ten[i].sc_name, reason[top_ten[i].sc_flags],
 		top_ten[i].sc_level);
