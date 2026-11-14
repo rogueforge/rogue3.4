@@ -45,6 +45,7 @@ register char monst;
     char buf[80];
     struct tm *localtime();
 
+    file_name[0] = '\0';
     time(&date);
     lt = localtime(&date);
     clear();
@@ -113,6 +114,7 @@ char monst;
 	top_ten[i].sc_monster = RN;
     }
 
+    file_name[0] = '\0';
     signal(SIGINT, SIG_DFL);
 #ifdef SIGWINCH
     signal(SIGWINCH, SIG_IGN);
@@ -184,6 +186,7 @@ total_winner()
     register struct object *obj;
     register int worth;
 
+    file_name[0] = '\0';
     for (item = pack; item != NULL; item = next(item))
     {
 	obj = (struct object *) ldata(item);
