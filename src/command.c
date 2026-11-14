@@ -174,7 +174,7 @@ command()
 		when 's' : search();
 		when 'v' : msg("Rogue version %s. (mctesq was here)", release);
 		when 'M' : after = FALSE; msg("Items allocated : %d", total);
-		when 'R' : after = FALSE; msg(huh);
+		when 'R' : after = FALSE; msg("%s", huh);
 		when CTRL('L') : after = FALSE; clearok(curscr,TRUE);draw(curscr);
 		when 'S' :
 		    after = FALSE;
