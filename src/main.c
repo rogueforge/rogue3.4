@@ -342,8 +342,6 @@ author()
     switch (getuid())
     {
 	case 0:
-	case 24601:
-	case 25900:
 	    return TRUE;
 	default:
 	    return FALSE;
