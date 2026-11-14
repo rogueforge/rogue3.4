@@ -182,7 +182,7 @@ status()
     s_ac = (cur_armor != NULL ? cur_armor->o_ac : pstats.s_arm);
     wmove(cw, LINES - 1, 0);
     wclrtoeol(cw);
-    mvwaddstr(cw, LINES - 1, 0, buf);
+    mvwaddnstr(cw, LINES - 1, 0, buf, COLS - 1);
     wmove(cw, oy, ox);
 }
 
