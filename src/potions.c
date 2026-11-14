@@ -266,7 +266,7 @@ read_scroll()
 	    {
 		register int x, y;
 		struct linked_list *titem;
-		register bool appear = 0;
+		register char appear = 0;
 		coord mp;
 
 		/*
