@@ -1,0 +1,152 @@
+#
+# Makefile for building rogue 3.4 with gcc or clang on Linux
+#
+# CFLAGS may be replaced, with a distribution's own flags for one.
+# REQUIRED comes after it, so that nothing in CFLAGS undoes it, and
+# lets the compiler build the 1981 source as it stands:
+#
+#   -std=gnu89
+#	The source is C from before the 1989 standard: old-style
+#	function definitions, functions called without being declared
+#	and types left to default to int.  Later standards do not
+#	allow these.
+#   -w
+#	Silence the warnings that style draws.
+#   -fno-common
+#	Keep each file's variables together in that file's own data.
+#	Older compilers otherwise leave the ones with no initial
+#	value for the linker to place, apart from the rest, and a
+#	saved game takes the game's data to lie between its first
+#	file and its last.
+#   -fsigned-char
+#	The source keeps the characters of the map and of the keys
+#	typed in a char, compares them with ERR and the like, and
+#	takes it that a char can be negative, as it could on a
+#	PDP-11 or a VAX.  On ARM and several other machines it cannot
+#	unless the compiler is told.
+#   -fwrapv
+#	The random number generator multiplies its seed and lets the
+#	result overflow.  gcc otherwise assumes that signed arithmetic
+#	never overflows.
+#   -fno-strict-aliasing
+#	At -O2 gcc assumes that pointers to different types never
+#	point at the same storage.  The source was written before
+#	that rule; options.c, for one, keeps pointers to its bool
+#	options as pointers to int.
+#   -fno-lto
+#	Restoring a saved game reads it back over the game's
+#	variables.  Compiling a file at a time gcc cannot tell, but
+#	optimizing the whole program at once it can go on using
+#	values that the restore has replaced.  It is left out when
+#	linking, where NetBSD's gcc hands it on to the linker.
+#
+# gcc and clang do not take all the same flags, and not every version
+# of either takes them all, so each of these is used only if $(CC)
+# accepts it:
+#
+#   -Wno-error=return-type
+#	Functions with no declared type return without a value,
+#	which clang makes an error.
+#   -Wno-error=incompatible-function-pointer-types
+#	Signal handlers are functions with no declared type, which
+#	makes them int and not void.  clang makes that an error too.
+#
+# LIMITS turns off the checks on the number of users and the load
+# average that mach_dep.h sets up, as rogue 5.2's Makefile leaves
+# them out: a machine that is running many games at once, as
+# Rog-O-Matic does, would otherwise turn new games away and end the
+# ones being played.  Set it empty to keep them.
+#
+# SCOREFILE says where the scores are kept.  It is
+# ~/.local/games/rogue3.4/scorefile unless it is given on the make line, and
+# make writes $(HOME) out when it builds, as open() does not know ~.
+# Set it empty to keep no scores.  No scores are kept if the file is
+# not there; 'make -f Makefile.linux install' makes it, empty.  Nor
+# are they kept in anything but a plain file with one link.  A rogue
+# installed set-id needs a SCOREFILE of its own, in a directory that
+# only the id it runs as can write: the default is in the home
+# directory of whoever built it.  Each version of rogue keeps its
+# scores in a file of its own.
+#
+# crypt(), which checks the wizard's password, is in libcrypt.
+#
+# A saved game is an image of the game's data and can only be
+# restored by the same build of rogue that saved it.
+#
+CC=	gcc
+CFLAGS=	-O2 -g
+LIMITS=	-DMAXUSERS=0 -DMAXLOAD=0
+SCOREFILE= $(HOME)/.local/games/rogue3.4/scorefile
+SF=	-DSCOREFILE='"$(SCOREFILE)"'
+REQUIRED= -std=gnu89 -w -fno-common -fsigned-char -fwrapv \
+	-fno-strict-aliasing \
+	-fno-lto $(ACCEPTED) $(LIMITS) $(SF) $(DEFS)
+accepts= $(shell $(CC) -Werror $(1) -E -x c /dev/null >/dev/null 2>&1 \
+	&& echo $(1))
+ACCEPTED:= $(call accepts,-Wno-error=return-type) \
+	$(call accepts,-Wno-error=incompatible-function-pointer-types)
+CRLIB=	-lcurses
+CRYPTLIB= -lcrypt
+OBJS=	vers.o main.o rooms.o passages.o command.o move.o fight.o \
+	chase.o init.o things.o potions.o wizard.o list.o io.o rip.o \
+	daemon.o daemons.o weapons.o monsters.o save.o options.o armor.o \
+	alloc.o
+
+rogue: $(OBJS)
+	$(CC) $(CFLAGS) $(filter-out -fno-lto,$(REQUIRED)) $(LDFLAGS) -o rogue $(OBJS) $(CRLIB) $(CRYPTLIB)
+
+.c.o:
+	$(CC) $(CFLAGS) $(CPPFLAGS) $(REQUIRED) -c $<
+
+$(OBJS): rogue.h rogue.flags
+main.o rip.o: mach_dep.h
+
+#
+# rogue.flags holds the compiler and the flags that the objects were
+# made with, and is rewritten only when they change.  The objects depend
+# on it, so that a different SCOREFILE, LIMITS or DEFS, which only change
+# the flags, make rogue anew rather than leaving the old path or limits in it.
+#
+RGFLAGS= $(CC) $(CFLAGS) $(CPPFLAGS) $(REQUIRED)
+export RGFLAGS
+.PHONY: FORCE
+rogue.flags: FORCE
+	@printf '%s\n' "$$RGFLAGS" | cmp -s - $@ || printf '%s\n' "$$RGFLAGS" > $@
+
+#
+# 'make -f Makefile.linux install' makes the directory the score file
+# goes in, and the score file itself, empty, if it is not there yet.
+# Only its owner may read or write it: anyone who can open it can also
+# keep it locked, and then no game can record a score.  A rogue
+# installed set-gid needs the file made 0660 and given to its group.
+# The directory is made writable by its owner only, whatever the umask,
+# so that nobody else can put another file in the score file's place.
+# Run it as whoever built rogue: under sudo, $(HOME) may be root's.
+# A HOME with a space or a quote in it is not handled; give a
+# SCOREFILE without them.
+#
+.PHONY: install
+install:
+	@test -n "$(SCOREFILE)" || { echo "SCOREFILE is not set"; exit 1; }
+	(umask 022 && mkdir -p "$(dir $(SCOREFILE))")
+	test -f "$(SCOREFILE)" || (umask 077 && : > "$(SCOREFILE)")
+
+#
+# 'make -f Makefile.linux check' builds check/rogue with the address
+# sanitizer.  That rogue stops with a report on any read or write
+# outside an array and on any use of freed memory.  DUMP keeps rogue
+# from catching the fault signals itself.  gcc defines
+# __SANITIZE_ADDRESS__ when the sanitizer is on, and save.c and
+# alloc.c go by it; clang may not, so it is defined here.
+#
+.PHONY: check
+check:
+	mkdir -p check
+	cd check && ln -sf ../*.c ../*.h ../Makefile.linux . && \
+	$(MAKE) -f Makefile.linux rogue \
+	    DEFS="-DDUMP -D__SANITIZE_ADDRESS__=1 -fsanitize=address \
+	    -fno-omit-frame-pointer"
+
+clean:
+	rm -f $(OBJS) rogue rogue.flags
+	rm -rf check
