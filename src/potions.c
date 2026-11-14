@@ -421,6 +421,8 @@ read_scroll()
 		for (mi = mlist; mi != NULL; mi = next(mi))
 		{
 		    register struct thing *mtp = (struct thing *) ldata(mi);
+		    if (mtp->t_dest == NULL)
+			mtp->t_dest = &hero;
 		    mtp->t_flags |= ISRUN;
 		}
 	    }
