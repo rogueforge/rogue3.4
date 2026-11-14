@@ -121,6 +121,12 @@ char **envp;
 
     initscr();				/* Start up cursor package */
     getmaxyx(stdscr, LINES, COLS);
+    if (LINES < 24 || COLS < 80)
+    {
+	endwin();
+	printf("\nSorry, rogue needs a terminal with at least 24 lines and 80 columns.\n");
+	exit(1);
+    }
     if (LINES > MAXLINES)
 	LINES = MAXLINES;
     if (COLS > MAXCOLS)
