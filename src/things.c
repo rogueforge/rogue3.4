@@ -580,6 +580,7 @@ drop()
 	if (op->o_flags & ISFOUND)
 	{
 	    msg("The scroll turns to dust as it hits the ground.");
+	    discard(obj);
 	    return;
 	}
 	op->o_flags |= ISFOUND;
