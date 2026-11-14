@@ -280,7 +280,7 @@ playit()
      * set up defaults for slow terminals
      */
 
-    if (_tty.sg_ospeed < B1200)
+    if (baudrate() < 1200)
     {
 	terse = TRUE;
 	jump = TRUE;
@@ -501,7 +501,6 @@ tstp()
     clearok(curscr, TRUE);
     touchwin(cw);
     draw(cw);
-    raw();	/* flush input */
-    noraw();
+    flushinp();	/* flush input */
 }
 # endif

@@ -715,9 +715,9 @@ passwd()
     mpos = 0;
     sp = buf;
     while ((c = getchar()) != '\n' && c != '\r' && c != '\033')
-	if (c == _tty.sg_kill)
+	if (c == killchar())
 	    sp = buf;
-	else if (c == _tty.sg_erase && sp > buf)
+	else if (c == erasechar() && sp > buf)
 	    sp--;
 	else
 	    *sp++ = c;
