@@ -46,7 +46,7 @@ doctor()
  */
 swander()
 {
-    daemon(rollwand, 0, BEFORE);
+    start_daemon(rollwand, 0, BEFORE);
 }
 
 /*
@@ -124,7 +124,7 @@ weak()
  */
 starve()
 {
-    daemon(faint, 0, AFTER);
+    start_daemon(faint, 0, AFTER);
 }
 
 /*

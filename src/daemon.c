@@ -22,10 +22,10 @@ struct fuse_action {
 };
 
 /*
- * daemon:
+ * start_daemon:
  *	Start a daemon, takes a function.
  */
-daemon(func, arg, type)
+start_daemon(func, arg, type)
 int (*func)(), arg, type;
 {
     register struct linked_list *item;
