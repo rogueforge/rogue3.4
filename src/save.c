@@ -197,7 +197,7 @@ char **envp;
     char buf[80], name[MAXPATH];
     STAT sbuf2;
     time_t saved_mtime;
-    int y, x;
+    int y, x, owiz;
 
     if (strcmp(file, "-r") == 0)
 	file = strcpy(name, file_name);
@@ -235,6 +235,7 @@ char **envp;
     lseek(inf, save_off((char *) &sbuf.st_mtime), 0);
     read(inf, &saved_mtime, sizeof saved_mtime);
     lseek(inf, 0L, 0);
+    owiz = wizard;
     if (encread(version, (unsigned int) (rg_edata - version), inf)
 	    != rg_edata - version
 	|| encread(rg_bss, (unsigned int) (rg_ebss - rg_bss), inf)
@@ -256,6 +257,8 @@ char **envp;
 	return FALSE;
     }
     sbuf2.st_mtime = saved_mtime;
+    if ((wizard = owiz) != FALSE)
+	waswizard = TRUE;
     /*
      * we do not close the file so that we will have a hold of the
      * inode for as long as possible
@@ -289,7 +292,7 @@ char **envp;
     /*
      * defeat multiple restarting from the same place
      */
-    if (!wizard)
+    if (!owiz)
 	if (sbuf2.st_nlink != 1)
 	{
 	    endwin();
