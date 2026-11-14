@@ -14,7 +14,6 @@
 typedef struct stat STAT;
 
 extern char version[], encstr[], *strerror();
-extern bool _endwin;
 #include <errno.h>
 
 STAT sbuf;
@@ -93,7 +92,6 @@ register FILE *savef;
     draw(cw);
     fwrite("junk", 1, 5, savef);
     fseek(savef, 0L, 0);
-    _endwin = TRUE;
     fstat(fileno(savef), &sbuf);
     encwrite(version, (char *) sbrk(0) - version, savef);
     fseek(savef, (long)((char *)&sbuf.st_mtime - version), 0);

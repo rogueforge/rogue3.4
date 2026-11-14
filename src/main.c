@@ -120,10 +120,10 @@ char **envp;
     cw = newwin(LINES, COLS, 0, 0);
     mw = newwin(LINES, COLS, 0, 0);
     hw = newwin(LINES, COLS, 0, 0);
-    cw->_scroll = FALSE;
-    mw->_scroll = FALSE;
-    stdscr->_scroll = FALSE;
-    hw->_scroll = FALSE;
+    scrollok(cw, FALSE);
+    scrollok(mw, FALSE);
+    scrollok(stdscr, FALSE);
+    scrollok(hw, FALSE);
     waswizard = wizard;
     new_level();			/* Draw current level */
     lastscore = -1;
