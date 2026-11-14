@@ -408,6 +408,18 @@ register double *avg;
     avg[1] = (double) buf[1] / 256.0;
     avg[2] = (double) buf[2] / 256.0;
 }
+#else
+#ifdef MAXLOAD
+
+loadav(avg)
+register double *avg;
+{
+    int getloadavg();
+
+    if (getloadavg(avg, 3) < 3)
+	avg[0] = avg[1] = avg[2] = 0.0;
+}
+#endif
 #endif
 
 #ifdef UCOUNT
