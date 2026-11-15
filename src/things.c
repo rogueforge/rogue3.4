@@ -25,9 +25,11 @@ new_level()
     clear();
     status();
     /*
-     * Free up the monsters on the last level
+     * Free up the monsters on the last level, and let go of the hero
+     * if one of them was holding him
      */
     free_list(mlist);
+    player.t_flags &= ~ISHELD;		/* unhold when you go down just in case */
     do_rooms();				/* Draw rooms */
     do_passages();			/* Draw passages */
     no_food++;
