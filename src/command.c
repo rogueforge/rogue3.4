@@ -247,10 +247,17 @@ command()
 	 */
 	if (take != 0)
 	    pick_up(take);
+	if (!after)
+	    ntimes++;
 	status();
 	if (ntimes)
 	{
 	    look();
+	    if (!after)
+	    {
+		wmove(cw, hero.y, hero.x);
+		firstmove = FALSE;
+	    }
 	    draw(cw);
 	}
     }
