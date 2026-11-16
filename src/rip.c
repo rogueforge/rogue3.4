@@ -87,7 +87,7 @@ char monst;
 	int sc_level;
 	char sc_monster;
     } top_ten[10];
-    register int i, j;
+    register int i, j, got;
     register FILE *outf;
     register char *killer;
     struct rlimit lim;
@@ -126,7 +126,13 @@ char monst;
 #endif
     if (!waswizard)
 	hold_sc();
-    encread((char *) top_ten, sizeof top_ten, fd);
+    got = encread((char *) top_ten, sizeof top_ten, fd);
+    for (i = j = 0; i < 10; i++)
+	if ((int) ((i + 1) * sizeof top_ten[0]) <= got && top_ten[i].sc_score > 0
+	    && top_ten[i].sc_flags >= 0 && top_ten[i].sc_flags <= 2)
+		top_ten[j++] = top_ten[i];
+    while (j < 10)
+	top_ten[j++].sc_score = 0;
     /*
      * Insert her in list if need be
      */
