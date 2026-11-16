@@ -91,6 +91,7 @@ char monst;
     register FILE *outf;
     register char *killer;
     struct rlimit lim;
+    sigset_t set, oset;
 
     /*
      * Open file and read list
@@ -159,6 +160,12 @@ char monst;
      * Update the list file, and let go of it, before waiting for the
      * player, who may never come back
      */
+    sigemptyset(&set);
+    sigaddset(&set, SIGHUP);
+    sigaddset(&set, SIGINT);
+    sigaddset(&set, SIGQUIT);
+    sigaddset(&set, SIGTERM);
+    sigprocmask(SIG_BLOCK, &set, &oset);
     if (!waswizard
 	&& !(getrlimit(RLIMIT_FSIZE, &lim) == 0 && lim.rlim_cur < sizeof top_ten))
     {
@@ -167,6 +174,7 @@ char monst;
     }
     fclose(outf);
     fd = -1;
+    sigprocmask(SIG_SETMASK, &oset, (sigset_t *) NULL);
     if (flags != -1)
     {
 	endwin();
