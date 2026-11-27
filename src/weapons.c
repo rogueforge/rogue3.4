@@ -106,6 +106,12 @@ int ydelta, xdelta;
 	 */
 	obj->o_pos.y += ydelta;
 	obj->o_pos.x += xdelta;
+	if (obj->o_pos.y < 0 || obj->o_pos.y >= LINES
+	    || obj->o_pos.x < 0 || obj->o_pos.x >= COLS)
+	{
+	    ch = ' ';
+	    break;
+	}
 	if (step_ok(ch = winat(obj->o_pos.y, obj->o_pos.x)) && ch != DOOR)
 	{
 	    /*
