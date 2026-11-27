@@ -167,11 +167,7 @@ char monst;
      * Update the list file, and let go of it, before waiting for the
      * player, who may never come back
      */
-    sigemptyset(&set);
-    sigaddset(&set, SIGHUP);
-    sigaddset(&set, SIGINT);
-    sigaddset(&set, SIGQUIT);
-    sigaddset(&set, SIGTERM);
+    sigfillset(&set);
     sigprocmask(SIG_BLOCK, &set, &oset);
     if (locked
 	&& !(getrlimit(RLIMIT_FSIZE, &lim) == 0 && lim.rlim_cur < sizeof top_ten))
