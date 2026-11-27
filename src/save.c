@@ -89,13 +89,14 @@ save_game()
 {
     register FILE *savef;
     register int c;
-    char buf[MAXPATH];
+    char buf[MAXPATH], oname[MAXPATH];
 
     if (!save_ok())
     {
 	msg("This rogue cannot save a game");
 	return FALSE;
     }
+    strcpy(oname, file_name);
     /*
      * get file name
      */
@@ -140,6 +141,8 @@ gotfile:
 	    savef = NULL;
 	    msg("A game saved there could not be restored");
 	}
+	if (savef == NULL)
+	    strcpy(file_name, oname);
     } while (savef == NULL);
 
     /*
