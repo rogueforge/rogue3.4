@@ -394,7 +394,9 @@ read_scroll()
 		    cur_weapon->o_hplus++;
 		else
 		    cur_weapon->o_dplus++;
-		msg("Your %s glows blue for a moment.", w_names[cur_weapon->o_which]);
+		msg("Your %s glows blue for a moment.",
+		    cur_weapon->o_type == WEAPON ?
+			w_names[cur_weapon->o_which] : "object");
 	    }
 	when S_SCARE:
 	    /*
