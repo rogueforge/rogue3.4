@@ -132,6 +132,14 @@ gotfile:
 	c = open(file_name, O_WRONLY|O_CREAT|O_EXCL, 0400);
 	if ((savef = c < 0 ? NULL : fdopen(c, "w")) == NULL)
 	    msg(strerror(errno));	/* fake perror() */
+	else if (fstat(fileno(savef), &sbuf) == 0
+	    && (sbuf.st_uid != getuid() || (sbuf.st_mode & 022) != 0))
+	{
+	    fclose(savef);
+	    unlink(file_name);
+	    savef = NULL;
+	    msg("A game saved there could not be restored");
+	}
     } while (savef == NULL);
 
     /*
