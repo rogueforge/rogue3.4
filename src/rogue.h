@@ -403,6 +403,7 @@ extern WINDOW *kw;			/* A copy of the screen */
 
 extern bool running;			/* True if player is running */
 extern bool playing;			/* True until he quits */
+extern bool begun;			/* The game is set up and being played */
 extern bool wizard;			/* True if allows wizard commands */
 extern bool after;			/* True if we want after daemons */
 extern bool notify;			/* True if player wants to know */

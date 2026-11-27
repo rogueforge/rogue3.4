@@ -50,6 +50,7 @@ WINDOW *kw;				/* A copy of the screen */
 int rg_lines, rg_cols;			/* Size of the screen */
 bool after;				/* True if we want after daemons */
 bool waswizard;				/* Was a wizard sometime */
+bool begun = FALSE;			/* The game is set up and being played */
 bool s_know[MAXSCROLLS];		/* Does he know what a scroll does */
 bool p_know[MAXPOTIONS];		/* Does he know what a potion does */
 coord oldpos;				/* Position before last look() call */

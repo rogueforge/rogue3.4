@@ -165,7 +165,7 @@ auto_save()
 
     if (pstats.s_hpt <= 0)
 	file_name[0] = '\0';
-    if (!save_ok())
+    if (!save_ok() || !begun)
 	exit(1);
     if (stat(file_name, &sbuf) >= 0 && (sbuf.st_mode & S_IFMT) == S_IFREG)
 	unlink(file_name);

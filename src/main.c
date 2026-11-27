@@ -366,6 +366,7 @@ playit()
 	parse_opts(opts);
 
     oldpos = hero;
+    begun = TRUE;
     while (playing)
     {
 	wasrunning = running;
