@@ -177,6 +177,8 @@ register struct thing *mp;
 			msg("You are transfixed by the gaze of the floating eye.");
 		}
 		no_command += rnd(2)+2;
+		if (no_command > HUNGERTIME)
+		    death(mp->t_type);
 	    when 'A':
 		/*
 		 * Ants have poisonous bites
