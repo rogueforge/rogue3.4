@@ -291,7 +291,7 @@ quit()
 	clear();
 	move(LINES-1, 0);
 	draw(stdscr);
-	score(purse, 1);
+	score(purse, 1, 0);
 	endwin();
 	exit(0);
     }

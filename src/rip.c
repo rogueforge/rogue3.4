@@ -10,6 +10,7 @@
 #include <signal.h>
 #include <ctype.h>
 #include <errno.h>
+#include <string.h>
 #include <sys/types.h>
 #include <sys/resource.h>
 #include <fcntl.h>
@@ -107,6 +108,7 @@ char monst;
 	return;
     outf = fdopen(fd, "w");
 
+    memset((char *) top_ten, 0, sizeof top_ten);
     for (i = 0; i < 10; i++)
     {
 	top_ten[i].sc_score = 0;
@@ -290,7 +292,7 @@ total_winner()
     printf("You have joined the elite ranks of those who have escaped\n");
     printf("the Dungeons of Doom alive.  You journey home and sell all your\n");
     printf("loot at a great profit and are admitted to the fighters guild.\n");
-    score(purse, 2);
+    score(purse, 2, 0);
     exit(0);
 }
 
