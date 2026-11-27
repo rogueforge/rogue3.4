@@ -223,8 +223,14 @@ command()
 			when CTRL('I') : inventory(lvl_obj, 0);
 			when CTRL('W') : whatis();
 			when CTRL('D') : after = TRUE; level++; new_level();
-			when CTRL('F') : show_win(stdscr, "--More (level map)--");
-			when CTRL('X') : show_win(mw, "--More (monsters)--");
+			when CTRL('F') :
+			    wclear(hw);
+			    overwrite(stdscr, hw);
+			    show_win(hw, "--More (level map)--");
+			when CTRL('X') :
+			    wclear(hw);
+			    overwrite(mw, hw);
+			    show_win(hw, "--More (monsters)--");
 			otherwise :
 			    msg("Illegal command '%s'.", unctrl(ch));
 			    count = 0;
