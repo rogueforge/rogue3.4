@@ -88,7 +88,7 @@ char monst;
 	int sc_level;
 	char sc_monster;
     } top_ten[10];
-    register int i, j, got;
+    register int i, j, got, locked = FALSE;
     register FILE *outf;
     register char *killer;
     struct rlimit lim;
@@ -128,7 +128,7 @@ char monst;
     signal(SIGTSTP, SIG_DFL);
 #endif
     if (!waswizard)
-	hold_sc();
+	locked = hold_sc();
     got = encread((char *) top_ten, sizeof top_ten, fd);
     for (i = j = 0; i < 10; i++)
 	if ((int) ((i + 1) * sizeof top_ten[0]) <= got && top_ten[i].sc_score > 0
@@ -139,7 +139,7 @@ char monst;
     /*
      * Insert her in list if need be
      */
-    if (!waswizard)
+    if (locked)
     {
 	for (i = 0; i < 10; i++)
 	    if (amount > top_ten[i].sc_score)
@@ -168,7 +168,7 @@ char monst;
     sigaddset(&set, SIGQUIT);
     sigaddset(&set, SIGTERM);
     sigprocmask(SIG_BLOCK, &set, &oset);
-    if (!waswizard
+    if (locked
 	&& !(getrlimit(RLIMIT_FSIZE, &lim) == 0 && lim.rlim_cur < sizeof top_ten))
     {
 	fseek(outf, 0L, 0);
@@ -186,6 +186,8 @@ char monst;
     /*
      * Print the list
      */
+    if (!locked && !waswizard)
+	printf("\nThe score file was kept locked, and this score is not in it.\n");
     printf("\nTop Ten Adventurers:\nRank\tScore\tName\n");
     for (i = 0; i < 10; i++) {
 	if (top_ten[i].sc_score
@@ -214,7 +216,8 @@ char monst;
 /*
  * hold_sc:
  *	Lock the score file.  The lock goes when the file is closed.
- *	Return TRUE if the file could be locked.
+ *	Return FALSE if someone else keeps it locked, TRUE if it is
+ *	locked or cannot be locked at all.
  */
 hold_sc()
 {
@@ -224,7 +227,9 @@ hold_sc()
     fl.l_type = F_WRLCK;
     for (cnt = 0; fcntl(fd, F_SETLK, &fl) < 0; cnt++)
     {
-	if ((errno != EAGAIN && errno != EACCES) || cnt == 5)
+	if (errno != EAGAIN && errno != EACCES)
+	    return TRUE;
+	if (cnt == 5)
 	    return FALSE;
 	sleep(1);
     }
