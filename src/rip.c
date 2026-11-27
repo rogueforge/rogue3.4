@@ -90,7 +90,7 @@ char monst;
     } top_ten[10];
     register int i, j, got, locked = FALSE;
     register FILE *outf;
-    register char *killer;
+    register char *killer, *why = NULL;
     struct rlimit lim;
     sigset_t set, oset;
 
@@ -127,9 +127,14 @@ char monst;
 #ifdef SIGTSTP
     signal(SIGTSTP, SIG_DFL);
 #endif
-    if (!waswizard)
-	locked = hold_sc();
+    if (!waswizard && !(locked = hold_sc()))
+	why = "was kept locked";
     got = encread((char *) top_ten, sizeof top_ten, fd);
+    if (got < 0 && locked)
+    {
+	locked = FALSE;
+	why = "could not be read";
+    }
     for (i = j = 0; i < 10; i++)
 	if ((int) ((i + 1) * sizeof top_ten[0]) <= got && top_ten[i].sc_score > 0
 	    && top_ten[i].sc_flags >= 0 && top_ten[i].sc_flags <= 2)
@@ -186,8 +191,8 @@ char monst;
     /*
      * Print the list
      */
-    if (!locked && !waswizard)
-	printf("\nThe score file was kept locked, and this score is not in it.\n");
+    if (why != NULL)
+	printf("\nThe score file %s, and this score is not in it.\n", why);
     printf("\nTop Ten Adventurers:\nRank\tScore\tName\n");
     for (i = 0; i < 10; i++) {
 	if (top_ten[i].sc_score
