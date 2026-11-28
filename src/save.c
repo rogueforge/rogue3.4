@@ -166,7 +166,9 @@ auto_save()
     register FILE *savef;
     register int i;
 
+#ifdef notdef
     if (pstats.s_hpt <= 0)
+#endif
 	file_name[0] = '\0';
     if (!save_ok() || !begun)
 	exit(1);
